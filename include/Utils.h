@@ -12,7 +12,10 @@ public:
     Utils(){
 
     }
-    vector<string> collectDirectoryContent(string dirName, string sourceType);
+    vector<string> collectCppDirectoryContent(string dirName);
+    vector<string> collectRustDirectoryContent(string dirName);
+    vector<string> collectJavaDirectoryContent(string dirName);
+    void collectDirectoryContent(string dirName, string sourceType);
     string collectFileContent(string fileName);
     void usage();
 };
