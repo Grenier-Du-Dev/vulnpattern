@@ -19,10 +19,16 @@ void Utils::collectDirectoryContent(string sourceType, string dirName){
     }else if (sourceType == "-r")
     {
         Utils::collectRustDirectoryContent(dirName);
-    }else{
+    }else
+    {
         Utils::collectJavaDirectoryContent(dirName);
     }
-    
+}
+
+
+void Utils::findContent(string dirName, string fileName){
+    fs::path p = Utils::findAFile(dirName, fileName); 
+    cout << "p = " << p << "\n";
 }
 
 vector<string> Utils::collectCppDirectoryContent(string dirName){
@@ -34,10 +40,17 @@ vector<string> Utils::collectCppDirectoryContent(string dirName){
         //auto it = std::find(cppFileExt.begin(), cppFileExt.end(), p.extension()) != cppFileExt.end();
         //cout << p << "\n";
         if(!fs::is_empty(p) && fs::is_regular_file(p)){
-            if ((p.extension() == ".cc") || (p.extension() == ".cpp"))
+            if ((p.extension() == ".cc") || (p.extension() == ".cpp") || (p.extension() == ".hpp") || (p.extension() == ".h"))
             {
-                std::ifstream pa(p);
-
+                //std::ifstream pa(p);
+                if (p.filename() == "fpdfview.h")
+                {
+                    cout << p << "\n";
+                }
+                
+                
+                
+                /*
                 if(!pa.is_open()){
                     cout << "enable to open the file";
                 }
@@ -46,10 +59,31 @@ vector<string> Utils::collectCppDirectoryContent(string dirName){
                 {
                     cout << s << "\n";
                 }
+                */
             }
         }
     }
     return dirs;
+}
+
+
+fs::path Utils::findAFile(string dirName, string fileName){
+   
+    fs::path p2;
+    for(fs::path p: fs::recursive_directory_iterator(dirName)){
+        if(!fs::is_empty(p) && fs::is_regular_file(p)){
+            if ((p.extension() == ".cc") || (p.extension() == ".cpp") || (p.extension() == ".hpp") || (p.extension() == ".h"))
+            {
+                //std::ifstream pa(p);
+                if (p.filename() == fileName)
+                {
+                    p2 = p;
+                    return p2;
+                }
+            }
+        }
+    }
+    return p2;
 }
 
 
@@ -70,7 +104,7 @@ vector<string> Utils::collectJavaDirectoryContent(string dirName){
 void Utils::usage(){
     cout << "usage vulnpattern [OPTION] directory" << "\n";
     cout << "Options available :" << "\n";
-    cout << "\t\t-c : for c and c++ source code\n\t\t-r : for rust source code\n\t\t-j : for java source code\n" << "\n";
+    cout << "\t\t-c : for c and c++ source code\n\t\t-r : for rust source code\n\t\t-j : for java source code\n\t\t-f : for find a file" << "\n";
 }
 
 
