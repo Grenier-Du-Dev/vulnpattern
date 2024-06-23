@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <filesystem>
+namespace fs = std::filesystem;
+
 using namespace std;
 
 
@@ -12,6 +15,8 @@ public:
     Utils(){
 
     }
+    fs::path findAFile(string opt, string fileName);
+    void findContent(string dirName, string fileName);
     vector<string> collectCppDirectoryContent(string dirName);
     vector<string> collectRustDirectoryContent(string dirName);
     vector<string> collectJavaDirectoryContent(string dirName);
